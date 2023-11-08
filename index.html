@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello React</title>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+        class Calculator extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { value: "", operator: "", result: "" };
+  }
+
+  handleChange = (event) => {
+    this.setState({ value: event.target.value });
+  };
+
+  handleOperator = (operator) => {
+    this.setState({ operator, value: this.state.value + operator });
+  };
+
+  handleNumber = (number) => {
+    this.setState({ value: this.state.value + number });
+  };
+
+  handleCalculate = () => {
+  const { value, operator } = this.state;
+  let result;
+
+  switch (operator) {
+    case "+":
+      result = parseFloat(value) + parseFloat(this.state.result);
+      break;
+    case "-":
+      result = parseFloat(this.state.result) - parseFloat(value);
+      break;
+    case "*":
+      result = parseFloat(value) * parseFloat(this.state.result);
+      break;
+    case "/":
+      if (parseFloat(value) === 0) {
+        result = "хлеб";
+      } else {
+        result = parseFloat(this.state.result) / parseFloat(value);
+      }
+      break;
+    default:
+      result = value;
+  }
+
+  this.setState({ result, value: "", operator: "" });
+};
+
+
+  handleClear = () => {
+    this.setState({ value: "", operator: "", result: "" });
+  };
+
+  render() {
+    const buttonStyle = {
+      fontSize: "24px",
+      padding: "10px",
+      margin: "5px",
+      borderRadius: "5px",
+      backgroundColor: "#f5f5f5",
+      border: "none",
+      cursor: "pointer",
+    };
+
+    const inputStyle = {
+      fontSize: "24px",
+      padding: "10px",
+      margin: "5px",
+      borderRadius: "5px",
+      border: "none",
+      backgroundColor: "#f5f5f5",
+      textAlign: "right",
+    };
+
+    return (
+      <div>
+        <input type="text" value={this.state.value} onChange={this.handleChange} style={inputStyle} />
+        <br />
+        <button onClick={() => this.handleNumber("1")} style={buttonStyle}>1</button>
+        <button onClick={() => this.handleNumber("2")} style={buttonStyle}>2</button>
+        <button onClick={() => this.handleNumber("3")} style={buttonStyle}>3</button>
+        <button onClick={() => this.handleOperator("+")} style={buttonStyle}>+</button>
+        <br />
+        <button onClick={() => this.handleNumber("4")} style={buttonStyle}>4</button>
+        <button onClick={() => this.handleNumber("5")} style={buttonStyle}>5</button>
+        <button onClick={() => this.handleNumber("6")} style={buttonStyle}>6</button>
+        <button onClick={() => this.handleOperator("-")} style={buttonStyle}>-</button>
+        <br />
+        <button onClick={() => this.handleNumber("7")} style={buttonStyle}>7</button>
+        <button onClick={() => this.handleNumber("8")} style={buttonStyle}>8</button>
+        <button onClick={() => this.handleNumber("9")} style={buttonStyle}>9</button>
+        <button onClick={() => this.handleOperator("*")} style={buttonStyle}>*</button>
+        <br />
+        <button onClick={() => this.handleNumber("0")} style={buttonStyle}>0</button>
+        <button onClick={() => this.handleOperator("/")} style={buttonStyle}>/</button>
+        <button onClick={this.handleCalculate} style={buttonStyle}>=</button>
+        <button onClick={this.handleClear} style={buttonStyle}>C</button>
+        <br />
+        <p>Результат: {this.state.result}</p>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<Calculator />, document.getElementById("app"));
+    </script>
+  </body>
+</html>
